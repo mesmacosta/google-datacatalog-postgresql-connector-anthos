@@ -36,8 +36,8 @@ Implemented in Python with Flask.
 
 ### Kubernetes Resources
 
-- [deployments/contacts](/kubernetes-manifests/contacts.yaml)
-- [service/contacts](/kubernetes-manifests/contacts.yaml)
+- [deployments/postgresql-connector](postgresql-connector.yaml)
+- [service/postgresql-connector](postgresql-connector.yaml)
 
 ### Development Resources
 

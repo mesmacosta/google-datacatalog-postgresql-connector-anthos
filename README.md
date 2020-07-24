@@ -1,6 +1,6 @@
 # PostgreSQL Connector Service
 
-This depends on the application: [bank-of-anthoss](https://github.com/GoogleCloudPlatform/bank-of-anthos).
+This depends on the environment: [bank-of-anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos).
 
 The PostgreSQL connector pulls metadata from the accounts database and pushes in Google Data Catalog.
 
@@ -38,8 +38,8 @@ Implemented in Python with Flask.
 
 ### Kubernetes Resources
 
-- [deployments/contacts](/kubernetes-manifests/contacts.yaml)
-- [service/contacts](/kubernetes-manifests/contacts.yaml)
+- [deployments/postgresql-connector](postgresql-connector.yaml)
+- [service/postgresql-connector](postgresql-connector.yaml)
 
 ### Development Resources
 

@@ -6,6 +6,8 @@ The PostgreSQL connector pulls metadata from the accounts database and pushes in
 
 Implemented in Python with Flask.
 
+![Architecture Diagram](./docs/architecture.png)
+
 ### Endpoints
 
 | Endpoint                | Type  | Auth? | Description                                                        |

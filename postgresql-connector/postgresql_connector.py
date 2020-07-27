@@ -122,17 +122,17 @@ def create_app():
 
 def __add_connector_env_variables():
     sys.argv.extend(['datacatalog-project-id',
-                     os.environ.get("POSTGRESQL2DC_DATACATALOG_PROJECT_ID")])
+                     os.environ.get('DATACATALOG_PROJECT_ID')])
     sys.argv.extend(['datacatalog-location-id',
-                     os.environ.get("POSTGRESQL2DC_DATACATALOG_LOCATION_ID")])
+                     os.environ.get('DATACATALOG_LOCATION_ID')])
     sys.argv.extend(['postgresql-host',
-                     os.environ.get("POSTGRESQL2DC_POSTGRESQL_SERVER")])
+                     os.environ.get('POSTGRESQL_SERVER')])
     sys.argv.extend(['postgresql-user',
-                     os.environ.get("POSTGRESQL2DC_POSTGRESQL_USERNAME")])
+                     os.environ.get('POSTGRES_USER')])
     sys.argv.extend(['postgresql-pass',
-                     os.environ.get("POSTGRESQL2DC_POSTGRESQL_PASSWORD")])
+                     os.environ.get('POSTGRES_PASSWORD')])
     sys.argv.extend(['postgresql-database',
-                     os.environ.get("POSTGRESQL2DC_POSTGRESQL_DATABASE")])
+                     os.environ.get('POSTGRES_DB')])
 
 
 if __name__ == "__main__":

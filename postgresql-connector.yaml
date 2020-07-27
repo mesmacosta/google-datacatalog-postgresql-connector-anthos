@@ -43,6 +43,12 @@ spec:
         # If no valid level is set, will default to info.
         - name: LOG_LEVEL
           value: "info"
+        - name: DATACATALOG_PROJECT_ID
+          value: "my-project"
+        - name: DATACATALOG_LOCATION_ID
+          value: "us-central1"
+        - name: POSTGRESQL_SERVER
+          value: "accounts-db"                              
         envFrom:
         - configMapRef:
             name: environment-config

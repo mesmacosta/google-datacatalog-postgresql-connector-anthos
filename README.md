@@ -33,8 +33,12 @@ Implemented in Python with Flask.
     - the path to the JWT signer's public key, mounted as a secret
 
 - ConfigMap `accounts-db-config`:
-  - `ACCOUNTS_DB_URI`
-    - the complete URI for the `accounts-db` database
+  - `POSTGRES_DB`
+    - name of `accounts-db` database
+  - `POSTGRES_USER`
+    - user of `accounts-db` database
+  - `POSTGRES_PASSWORD`
+    - pasword of `accounts-db` database
 
 ### Kubernetes Resources
 

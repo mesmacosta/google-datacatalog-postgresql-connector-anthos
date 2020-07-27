@@ -19,7 +19,6 @@
 import atexit
 import logging
 import os
-import sys
 
 import google.cloud.logging
 import jwt

@@ -4,6 +4,7 @@ cryptography==2.9
 gunicorn==20.0.4
 bleach==3.1.4
 google-datacatalog-postgresql-connector==0.6.0
+google-cloud-logging
 opentelemetry-sdk==0.10b0
 opentelemetry-exporter-cloud-trace==0.10b0
 opentelemetry-ext-flask==0.10b0

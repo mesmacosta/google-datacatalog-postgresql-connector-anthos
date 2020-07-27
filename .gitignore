@@ -153,3 +153,5 @@ cython_debug/
 
 # workload identity generated manifests 
 wi-kubernetes-manifests/
+
+*sample_execution.txt

@@ -21,6 +21,7 @@ import logging
 import os
 import sys
 
+import google.cloud.logging
 import jwt
 from flask import Flask, jsonify, request
 from google.datacatalog_connectors.postgresql import \
@@ -86,53 +87,52 @@ def create_app():
             if auth_payload is None:
                 raise PermissionError
 
-            app.logger.debug("Starting sync logic.")
-            datacatalog_cli.PostgreSQL2DatacatalogCli().run(sys.argv)
-            app.logger.info("Sync execution done.")
+            logging.info("Starting sync logic.")
+            datacatalog_cli.PostgreSQL2DatacatalogCli().run(_get_connector_run_args())
+            logging.info("Sync execution done.")
             return jsonify({}), 200
 
         except (PermissionError, jwt.exceptions.InvalidTokenError) as err:
-            app.logger.error("Error executing sync: %s", str(err))
+            logging.error("Error executing sync: %s", str(err))
             return "authentication denied", 401
         except UserWarning as warn:
-            app.logger.error("Error executing sync: %s", str(warn))
+            logging.error("Error executing sync: %s", str(warn))
             return str(warn), 400
         except Exception as err:
-            app.logger.error("Error executing sync: %s", str(err))
+            logging.error("Error executing sync: %s", str(err))
             return "failed to sync", 500
 
     @atexit.register
     def _shutdown():
         """Executed when web app is terminated."""
-        app.logger.info("Stopping contacts service.")
+        logging.info("Stopping contacts service.")
+
+    def _get_connector_run_args():
+        return [
+            '--datacatalog-project-id', os.environ.get('DATACATALOG_PROJECT_ID'),
+            '--datacatalog-location-id', os.environ.get('DATACATALOG_LOCATION_ID'),
+            '--postgresql-host', os.environ.get('POSTGRESQL_SERVER'),
+            '--postgresql-user', os.environ.get('POSTGRES_USER'),
+            '--postgresql-pas', os.environ.get('POSTGRES_PASSWORD'),
+            '--postgresql-database', os.environ.get('POSTGRES_DB')
+        ]
 
     # set up logger
-    app.logger.handlers = logging.getLogger("gunicorn.error").handlers
-    app.logger.setLevel(logging.getLogger("gunicorn.error").level)
-    app.logger.info("Starting PostgreSQL connector service.")
+    # Instantiates a client
+    client = google.cloud.logging.Client()
+
+    # Connects the logger to the root logging handler;
+    # by default this captures
+    # all logs at INFO level and higher
+    client.setup_logging()
+
+    logging.info("Service PostgreSQL connector created.")
 
     # setup global variables
     app.config["VERSION"] = os.environ.get("VERSION")
     app.config["PUBLIC_KEY"] = open(os.environ.get("PUB_KEY_PATH"), "r").read()
 
-    __add_connector_env_variables()
-
     return app
-
-
-def __add_connector_env_variables():
-    sys.argv.extend(['datacatalog-project-id',
-                     os.environ.get('DATACATALOG_PROJECT_ID')])
-    sys.argv.extend(['datacatalog-location-id',
-                     os.environ.get('DATACATALOG_LOCATION_ID')])
-    sys.argv.extend(['postgresql-host',
-                     os.environ.get('POSTGRESQL_SERVER')])
-    sys.argv.extend(['postgresql-user',
-                     os.environ.get('POSTGRES_USER')])
-    sys.argv.extend(['postgresql-pass',
-                     os.environ.get('POSTGRES_PASSWORD')])
-    sys.argv.extend(['postgresql-database',
-                     os.environ.get('POSTGRES_DB')])
 
 
 if __name__ == "__main__":

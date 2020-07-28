@@ -20,9 +20,11 @@ import atexit
 import logging
 import os
 
-import google.cloud.logging
 import jwt
 from flask import Flask, jsonify, request
+from google.cloud import logging as gcp_logging
+from google.cloud.logging.handlers import CloudLoggingHandler, ContainerEngineHandler, \
+    AppEngineHandler
 from google.datacatalog_connectors.postgresql import \
     datacatalog_cli
 from opentelemetry import trace
@@ -116,14 +118,16 @@ def create_app():
             '--postgresql-database', os.environ.get('POSTGRES_DB')
         ]
 
-    # set up logger
-    # Instantiates a client
-    client = google.cloud.logging.Client()
-
-    # Connects the logger to the root logging handler;
-    # by default this captures
-    # all logs at INFO level and higher
-    client.setup_logging()
+    logging_client = gcp_logging.Client()
+    logging_client.setup_logging(log_level=logging.INFO)
+    root_logger = logging.getLogger()
+    # use the GCP handler ONLY in order to prevent logs from getting written to STDERR
+    root_logger.handlers = [handler
+                            for handler in root_logger.handlers
+                            if isinstance(handler, (
+                             CloudLoggingHandler,
+                             ContainerEngineHandler,
+                             AppEngineHandler))]
 
     logging.info("Service PostgreSQL connector created.")
 

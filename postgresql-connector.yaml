@@ -36,7 +36,7 @@ spec:
           readOnly: true
         env:
         - name: VERSION
-          value: "v0.1.0"
+          value: "v0.2.0"
         - name: PORT
           value: "8080"
         # Valid levels are debug, info, warning, error, critical.

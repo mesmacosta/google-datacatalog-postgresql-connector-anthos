@@ -29,10 +29,8 @@ spec:
             - name: keys
               mountPath: "/root/.ssh"
               readOnly: true        
-            args:
-            - /bin/sh
-            - -c
-            - wget --header="Authorization: Bearer <<TOKEN>>" --post-data={} http://postgresql-connector:8080/sync
+            command: ["/bin/sh", "-c"]
+            args: ["wget", "--header='Authorization: Bearer <<TOKEN>>'", "--post-data={}", "http://postgresql-connector:8080/sync"]
           restartPolicy: OnFailure
           volumes:
           - name: keys

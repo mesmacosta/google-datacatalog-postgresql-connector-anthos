@@ -19,34 +19,28 @@ metadata:
 spec:
   schedule: "*/5 * * * *"
   jobTemplate:
-    metadata:
-      labels:
-        app: cronjob
     spec:
-      containers:
-      - name: cronjob
-        image: busybox
-        volumeMounts:
-        - name: keys
-          mountPath: "/root/.ssh"
-          readOnly: true        
-        args:
-        - /bin/sh
-        - -c
-        - wget \
-        - --header="Authorization: Bearer <<TOKEN>>" \
-        - --header="Accept: */*" \
-        - --header="Accept-Encoding: gzip, deflate" \
-        - --post-data={} \
-        - http://postgresql-connector:8080/sync
-      restartPolicy: OnFailure
-      volumes:
-      - name: keys
-        secret:
-          secretName: jwt-key
-          items:
-          - key: jwtRS256.key
-            path: privatekey
+      template:
+        spec:
+          containers:
+          - name: cronjob
+            image: busybox
+            volumeMounts:
+            - name: keys
+              mountPath: "/root/.ssh"
+              readOnly: true        
+            args:
+            - /bin/sh
+            - -c
+            - wget --header="Authorization: Bearer <<TOKEN>>" --post-data={} http://postgresql-connector:8080/sync
+          restartPolicy: OnFailure
+          volumes:
+          - name: keys
+            secret:
+              secretName: jwt-key
+              items:
+              - key: jwtRS256.key
+                path: privatekey
 
 
 # [TODO] Improve this to generate token from private key at: $(cat /root/.ssh/privatekey)

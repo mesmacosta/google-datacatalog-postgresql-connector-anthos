@@ -2,7 +2,9 @@
 
 This depends on the environment: [bank-of-anthos](https://github.com/GoogleCloudPlatform/bank-of-anthos).
 
-The PostgreSQL connector **plugs** in the **bank-of-anthos** enrivonment and pulls metadata from the accounts database and pushes in Google Data Catalog. This can be used in any GKE and Kubernetes environment to also connect with other PostgreSQL databases, by setting the environment variables with the correct values.
+The PostgreSQL connector **plugs** in the **bank-of-anthos** enrivonment. 
+
+The connector pulls metadata from the accounts database and pushes in Google Data Catalog. This can be used in any GKE and Kubernetes environment to also connect with other PostgreSQL databases, by setting the environment variables with the correct values.
 
 Implemented in Python with Flask using the [google-datacatalog-postgresql-connector](https://github.com/GoogleCloudPlatform/datacatalog-connectors-rdbms/tree/master/google-datacatalog-postgresql-connector).
 

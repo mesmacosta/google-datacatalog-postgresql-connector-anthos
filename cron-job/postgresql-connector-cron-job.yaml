@@ -15,7 +15,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: cronjob
+  name: postgresql-connector-cron-job
 spec:
   schedule: "*/5 * * * *"
   jobTemplate:
@@ -23,15 +23,24 @@ spec:
       template:
         spec:
           containers:
-          - name: cronjob
+          - name: postgresql-connector-cron-job
             image: busybox
+            resources:
+              requests:
+                cpu: 1m
+                memory: 100Mi
+            env:
+              - name: WEBHOOK
+                value: "http://postgresql-connector:8080/sync"    
+              - name: TOKEN
+                value: "<SET-TOKEN>"                         
+            command: ["/scripts/trigger-sync.sh"]
             volumeMounts:
             - name: keys
               mountPath: "/root/.ssh"
-              readOnly: true        
-            command: ["/bin/sh", "-c"]
-            args: ["wget", "--header='Authorization: Bearer <<TOKEN>>'", "--post-data={}", "http://postgresql-connector:8080/sync"]
-          restartPolicy: OnFailure
+              readOnly: true
+            - name: trigger
+              mountPath: /scripts              
           volumes:
           - name: keys
             secret:
@@ -39,6 +48,11 @@ spec:
               items:
               - key: jwtRS256.key
                 path: privatekey
+          - name: trigger
+            configMap:
+              name: trigger
+              defaultMode: 0744
+          restartPolicy: OnFailure              
 
 
 # [TODO] Improve this to generate token from private key at: $(cat /root/.ssh/privatekey)

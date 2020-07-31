@@ -53,7 +53,7 @@ Implemented in Python with Flask.
 
 - [development.md](development.md)
 
-There is an option to add a cron job to automate the sync execution:
+You can automate the sync execution but adding a cron job to the architecture:
 
 ![Architecture Cron Diagram](./docs/architecture-cron.png)
 

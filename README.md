@@ -55,6 +55,6 @@ Implemented in Python with Flask.
 
 You can automate the sync execution by adding a cron job to the architecture:
 
-![Architecture Cron Diagram](./docs/architecture-cron.png)
+![Architecture Cron Diagram](./docs/architecture-cron-02.png)
 
 - [deployment-cron.md](deployment-cron.md)

@@ -58,6 +58,6 @@ You can automate the sync execution by adding a cron job to the architecture:
 
 ![Architecture Cron Diagram](./docs/architecture-cron-02.png)
 
-### Cron Deployment Instructions
+#### Cron Deployment Instructions
 
 - [deployment-cron.md](deployment-cron.md)

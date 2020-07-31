@@ -45,11 +45,11 @@ Implemented in Python with Flask.
 - [deployments/postgresql-connector](postgresql-connector.yaml)
 - [service/postgresql-connector](postgresql-connector.yaml)
 
-### Deployment Resources
+### Deployment Instructions
 
 - [deployment.md](deployment.md)
 
-### Development Resources
+### Development Instructions
 
 - [development.md](development.md)
 
@@ -58,5 +58,5 @@ You can automate the sync execution by adding a cron job to the architecture:
 
 ![Architecture Cron Diagram](./docs/architecture-cron-02.png)
 
-### Cron Deployment Resources
+### Cron Deployment Instructions
 - [deployment-cron.md](deployment-cron.md)

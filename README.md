@@ -8,6 +8,31 @@ Implemented in Python with Flask.
 
 ![Architecture Diagram](./docs/architecture.png)
 
+**Disclaimer: This is not an officially supported Google product.**
+
+<!--
+  ⚠️ DO NOT UPDATE THE TABLE OF CONTENTS MANUALLY ️️⚠️
+  run `npx markdown-toc -i README.md`.
+
+  Please stick to 80-character line wraps as much as you can.
+-->
+
+## Table of Contents
+
+<!-- toc -->
+
+- [Endpoints](#endpoints)
+- [Environment Variables](#environment-variables)
+- [Kubernetes Resources](#kubernetes-resources)
+- [Development Instructions](#development-instructions)
+- [Deployment Instructions](#deployment-instructions)
+- [Automated Sync](#automated-sync)
+  * [Cron Deployment Instructions](#cron-deployment-instructions)
+
+<!-- tocstop -->
+
+-----
+
 ### Endpoints
 
 | Endpoint                | Type  | Auth? | Description                                                        |

@@ -44,5 +44,51 @@ source ./bin/activate
 pip install pip-tools
 
 pip-compile --output-file=requirements.txt requirements.in
+```
 
 # run skaffold or docker build using the generated requirements.txt
+
+### Build and Run the Docker image locally
+>`/system/data` should contain the credentials file.
+
+>`/system/key` should contain the generated jwt key.
+
+```
+# build
+docker build -t bank-of-anthos-postgresql-connector .
+# run
+docker run \
+-v /system/data:/data \
+-v /system/key:/key \
+--env GOOGLE_APPLICATION_CREDENTIALS=/data/credentials.json \
+--env PUB_KEY_PATH=/key/jwtRS256.key.pub \
+--env DATACATALOG_PROJECT_ID=my-project \
+--env DATACATALOG_LOCATION_ID=us-central1 \
+--env POSTGRESQL_SERVER=104.154.57.237 \
+--env POSTGRES_USER=user-test \
+--env POSTGRES_PASSWORD=user-pass \
+--env POSTGRES_DB=postgres \
+--env VERSION=0.1.0 \
+--env LOG_LEVEL=debug \
+-p 8080:8080 \
+bank-of-anthos-postgresql-connector
+```
+
+### Test commands
+
+#### Get the connector version
+```
+kubectl exec $(kubectl get pod -l app=postgresql-connector -o jsonpath={.items..metadata.name}) -- curl http://postgresql-connector:8080/version
+```
+
+#### Call the connector manually
+> `{TOKEN_PLACEHOLDER}` should be generated with the jwt key at `deployment.md`
+
+```
+kubectl exec $(kubectl get pod -l app=postgresql-connector -o jsonpath={.items..metadata.name}) -- curl \
+-X POST \
+  http://postgresql-connector:8080/sync \
+  -H 'Accept: */*' \
+  -H 'Accept-Encoding: gzip, deflate' \
+  -H 'Authorization: Bearer {TOKEN_PLACEHOLDER}'
+```
